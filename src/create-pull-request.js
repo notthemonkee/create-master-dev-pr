@@ -6,23 +6,21 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-const _hasOpenMasterToDevPrs = (openPrs) => {
-    const masterToDevPrs = openPrs.filter((pr) => pr.head.ref === 'master' && pr.base.ref === 'dev');
+const _hasOpenPullRequests = (openPrs, head, base) => {
+    const masterToDevPrs = openPrs.filter((pr) => pr.head.ref === head && pr.base.ref === base);
     return !!masterToDevPrs.length;
 };
 
 async function run() {
     try {
-        // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
         const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
 
         const context = github.context;
 
-        // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
-        const head = core.getInput('from', { required: true });
-        const base = core.getInput('to', { required: true });
-        const title = core.getInput('title', { required: true });
-        const body = core.getInput('body', { required: true });
+        const head = core.getInput('from', {required: true});
+        const base = core.getInput('to', {required: true});
+        const title = core.getInput('title', {required: true});
+        const body = core.getInput('body', {required: true});
 
         const openPrs = await octokit.pulls.list({
             ...context.repo,
@@ -31,11 +29,7 @@ async function run() {
             base
         });
 
-        // Cannot create a new master to dev pull request if one already exists.
-        if (!_hasOpenMasterToDevPrs(openPrs.data)) {
-            // Call the GitHub API to create the pull request.
-            // API Documentation: https://developer.github.com/v3/pulls/#create-a-pull-request
-            // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-pulls-create
+        if (!_hasOpenPullRequests(openPrs.data, head, base)) {
             const pullRequestResponse = await octokit.pulls.create({
                 ...context.repo,
                 head,
@@ -45,7 +39,7 @@ async function run() {
             });
 
             const {
-                data: { id: prId, url: prUrl }
+                data: {id: prId, url: prUrl}
             } = pullRequestResponse;
         } else {
             core.warning(`A pull request already exists from ${head} to ${base}. Pull request creation skipped.`);
