@@ -1,0 +1,27 @@
+{
+  "name": "create-pull-request",
+  "version": "1.0.0",
+  "author": "Dave Jones",
+  "description": "A GitHub Action to create pull requests via the GitHub Pulls API",
+  "main": "src/main.js",
+  "scripts": {
+    "package": "ncc build src/main.js -o dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notthemonkee/create-pull-request-action.git"
+  },
+  "dependencies": {
+    "@actions/core": "1.2.2",
+    "@actions/github": "2.1.1"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "0.21.0",
+    "husky": "^4.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run package && git add dist/"
+    }
+  }
+}

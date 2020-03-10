@@ -1,0 +1,19 @@
+name: 'Create Pull Request'
+description: 'A GitHub Action to create pull requests via the GitHub Pulls API'
+author: 'Dave Jones <dave@davidhjones.com>'
+inputs:
+  from:
+    description: 'The source branch for the PR'
+    required: true
+  to:
+    description: 'The destination branch for the PR'
+    required: true
+  title:
+    description: 'The title of the PR'
+    required: true
+  body:
+    description: 'The body of the PR'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
