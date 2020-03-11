@@ -1,6 +1,6 @@
 {
   "name": "create-pull-request",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Dave Jones",
   "description": "A GitHub Action to create pull requests via the GitHub Pulls API",
   "main": "src/main.js",
