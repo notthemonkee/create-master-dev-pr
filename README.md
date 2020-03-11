@@ -1,6 +1,8 @@
 # GitHub Action - Pull Request API
 This GitHub Action (written in JavaScript) wraps the [GitHub Pull Requests API](https://developer.github.com/v3/pulls/), specifically the [Create a Pull Request](https://developer.github.com/v3/pulls/#create-a-pull-request) endpoint, to allow you to leverage GitHub Actions to create pull requests.
 
+## Builds and Deployment
+![Semantic Release](https://img.shields.io/badge/deploy-semantic%20release-blueviolet?style=flat-square)
 
 ## Usage
 ### Pre-requisites
